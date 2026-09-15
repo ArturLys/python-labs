@@ -1,0 +1,21 @@
+# virtual environment
+.venv/
+
+# caches and byte-code
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# build artifacts
+dist/
+build/
+*.egg-info/
+
+# IDE
+.idea/
+.vscode/
+
+# local secrets
+.env

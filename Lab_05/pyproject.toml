@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "student-manager"
+version = "0.5.0"
+description = "Облік студентів — наскрізний навчальний проєкт курсу «Професійний Python»"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Artur Lys", email = "Artur.Lys@lnu.edu.ua" }]
+dependencies = ["pyyaml>=6.0"]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+dev = ["mypy>=1.10", "types-PyYAML"]
+
+[project.scripts]
+student-manager = "student_manager.main:main"
+student-storage = "student_manager.storage.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

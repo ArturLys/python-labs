@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: ruff (lint + format check)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff
+      - run: ruff check .
+      - run: ruff format --check .
+
+  typecheck:
+    name: mypy (strict)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -e ".[api,perf,dev]"
+      - run: mypy src
+
+  test:
+    name: pytest (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -e ".[api,perf,test]"
+      - name: pytest with branch coverage (threshold 80% from pyproject)
+        run: pytest --cov=student_manager --cov-branch --cov-report=term-missing --cov-report=xml
+      - uses: actions/upload-artifact@v4
+        if: matrix.python == '3.12'
+        with:
+          name: coverage-xml
+          path: coverage.xml
+
+  build:
+    name: wheel + sdist
+    needs: [lint, typecheck, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install build twine
+      - run: python -m build
+      - run: twine check dist/*
+      - name: install the wheel into a clean environment and smoke-test the entry points
+        run: |
+          python -m venv /tmp/smoke
+          /tmp/smoke/bin/pip install --quiet "student-manager[api] @ file://$(pwd)/$(ls dist/*.whl)"
+          /tmp/smoke/bin/student-api --help
+          /tmp/smoke/bin/python -c "import student_manager; print('student_manager', student_manager.__version__)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  docker:
+    name: docker build + /health
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t student-manager:${{ github.sha }} -t student-manager:latest .
+      - name: run the container with configuration from the environment
+        run: |
+          docker run -d --name api -p 8000:8000 \
+            -e API_TOKEN=${{ secrets.API_TOKEN || 'ci-only-token' }} -e LOG_LEVEL=DEBUG student-manager:latest
+          for i in $(seq 1 20); do
+            if curl -fsS http://localhost:8000/health; then echo; break; fi
+            sleep 1
+          done
+          curl -fsS http://localhost:8000/health | tee health.json
+          grep -q '"status":"ok"' health.json
+          echo "--- unauthorised POST must be 401 ---"
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:8000/students -H 'Content-Type: application/json' -d '{}')" = "401"
+          docker image ls student-manager
+          docker ps --filter name=api
+      - if: always()
+        run: docker logs api || true
+      - if: always()
+        run: docker rm -f api || true
