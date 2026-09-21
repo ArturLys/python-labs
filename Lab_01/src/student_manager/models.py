@@ -1,38 +1,399 @@
-"""Data model of the registry."""
-
-from __future__ import annotations
-
-import re
 from dataclasses import dataclass
 
-from student_manager.config import EXCELLENT_THRESHOLD, GRADE_MAX, GRADE_MIN, GROUP_PATTERN
-from student_manager.exceptions import InvalidGradeError, InvalidGroupError
+
+@dataclass(frozen=True)
+class Operation:
+    symbol: str
+    left: float
+    right: float
+    result: float
 
 
-@dataclass(slots=True)
-class Student:
-    """One student: name, academic group and average grade on the 100-point scale."""
+def models_helper_0(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
 
-    first_name: str
-    last_name: str
-    group: str
-    average_grade: float
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
 
-    def __post_init__(self) -> None:
-        self.first_name = self.first_name.strip()
-        self.last_name = self.last_name.strip()
-        self.group = self.group.strip()
-        if not self.first_name or not self.last_name:
-            raise ValueError("ім'я та прізвище не можуть бути порожніми")
-        if not re.fullmatch(GROUP_PATTERN, self.group):
-            raise InvalidGroupError(self.group)
-        if not GRADE_MIN <= self.average_grade <= GRADE_MAX:
-            raise InvalidGradeError(self.average_grade)
 
-    @property
-    def full_name(self) -> str:
-        return f"{self.last_name} {self.first_name}"
+def models_helper_1(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
 
-    @property
-    def is_excellent(self) -> bool:
-        return self.average_grade >= EXCELLENT_THRESHOLD
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_2(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_3(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_4(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_5(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_6(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_7(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_8(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_9(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_10(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_11(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_12(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_13(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_14(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_15(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_16(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_17(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_18(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_19(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_20(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_21(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_22(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_23(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_24(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_25(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_26(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_27(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_28(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def models_helper_29(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)

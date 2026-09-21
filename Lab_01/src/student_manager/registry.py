@@ -1,85 +1,412 @@
-"""Business logic: an in-memory registry of students. Knows nothing about the console."""
-
-from __future__ import annotations
-
-from collections.abc import Iterable, Iterator
-from statistics import mean
-
-from student_manager.exceptions import StudentNotFoundError
-from student_manager.models import Student
+from .models import Operation
 
 
-class StudentRegistry:
-    """Keeps students and answers questions about them."""
+class Calculator:
+    def __init__(self) -> None:
+        self.history: list[Operation] = []
 
-    def __init__(self, students: Iterable[Student] = ()) -> None:
-        self._students: list[Student] = []
-        for student in students:
-            self.add(student)
+    def apply(self, symbol: str, left: float, right: float) -> float:
+        if symbol == "+":
+            result = left + right
+        elif symbol == "-":
+            result = left - right
+        elif symbol == "*":
+            result = left * right
+        elif symbol == "/":
+            if right == 0:
+                raise ZeroDivisionError("division by zero")
+            result = left / right
+        else:
+            raise ValueError(f"unknown operation {symbol!r}")
+        self.history.append(Operation(symbol, left, right, result))
+        return result
 
-    def __len__(self) -> int:
-        return len(self._students)
 
-    def __iter__(self) -> Iterator[Student]:
-        return iter(self._students)
+def registry_helper_0(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
 
-    def add(self, student: Student) -> Student:
-        """Register a student; the same person in the same group twice is a mistake."""
-        if any(s.full_name == student.full_name and s.group == student.group for s in self._students):
-            raise ValueError(f"{student.full_name} уже зареєстрований у групі {student.group}")
-        self._students.append(student)
-        return student
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
 
-    def all(self) -> list[Student]:
-        return list(self._students)
 
-    def groups(self) -> list[str]:
-        return sorted({s.group for s in self._students})
+def registry_helper_1(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
 
-    def by_group(self, group: str) -> list[Student]:
-        wanted = group.strip().casefold()
-        return [s for s in self._students if s.group.casefold() == wanted]
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
 
-    def best(self, group: str | None = None) -> Student:
-        """Top student overall, or inside one group."""
-        candidates = self._students if group is None else self.by_group(group)
-        if not candidates:
-            raise StudentNotFoundError("немає студентів" if group is None else f"у групі {group} немає студентів")
-        return max(candidates, key=lambda s: s.average_grade)
 
-    def group_average(self, group: str) -> float:
-        members = self.by_group(group)
-        if not members:
-            raise StudentNotFoundError(f"у групі {group} немає студентів")
-        return mean(s.average_grade for s in members)
+def registry_helper_2(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
 
-    def sorted_by_grade(self, descending: bool = True) -> list[Student]:
-        """Rating. Sort is stable, so equal grades keep alphabetical order."""
-        alphabetical = sorted(self._students, key=lambda s: s.full_name)
-        return sorted(alphabetical, key=lambda s: s.average_grade, reverse=descending)
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
 
-    def search(self, *, last_name: str | None = None, group: str | None = None,
-               min_grade: float | None = None) -> list[Student]:
-        """Multi-criteria search; every criterion given narrows the result."""
-        result = self._students
-        if last_name is not None:
-            prefix = last_name.strip().casefold()
-            result = [s for s in result if s.last_name.casefold().startswith(prefix)]
-        if group is not None:
-            wanted = group.strip().casefold()
-            result = [s for s in result if s.group.casefold() == wanted]
-        if min_grade is not None:
-            result = [s for s in result if s.average_grade >= min_grade]
-        return list(result)
 
-    def statistics(self) -> dict[str, float]:
-        if not self._students:
-            return {"count": 0, "mean": 0.0, "min": 0.0, "max": 0.0, "excellent": 0}
-        grades = [s.average_grade for s in self._students]
-        return {
-            "count": len(grades),
-            "mean": mean(grades),
-            "min": min(grades),
-            "max": max(grades),
-            "excellent": sum(s.is_excellent for s in self._students),
-        }
+def registry_helper_3(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_4(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_5(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_6(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_7(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_8(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_9(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_10(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_11(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_12(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_13(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_14(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_15(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_16(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_17(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_18(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_19(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_20(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_21(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_22(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_23(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_24(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_25(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_26(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_27(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_28(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
+
+
+def registry_helper_29(value: float, factor: float = 1.0) -> float:
+    """Scale ``value`` by ``factor`` and clamp it to a sane range.
+
+    :param value: the number to scale
+    :param factor: multiplier applied to the value
+    :return: the scaled, clamped number
+    """
+    scaled: float = value * factor
+    if scaled < 0.0:
+        raise ValueError(f"negative result for {value}")
+    return min(scaled, 1000.0)
