@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
-from student_manager.exceptions import StudentManagerError
-from student_manager.models import Student
-from student_manager.registry import StudentRegistry
+from student_manager.exceptions import PersonManagerError
+from student_manager.models import Person
+from student_manager.registry import PersonRegistry
 
 HEADER = f"{'Студент':<26}{'Група':<10}{'Середній бал':>13}"
 RULE = "-" * len(HEADER)
@@ -21,10 +21,10 @@ MENU = """
 0. Вихід"""
 
 
-def format_students(students: list[Student], title: str) -> str:
-    if not students:
+def format_persons(persons: list[Person], title: str) -> str:
+    if not persons:
         return f"{title}\n{RULE}\n(порожньо)"
-    rows = [f"{s.full_name:<26}{s.group:<10}{s.average_grade:>13.2f}" for s in students]
+    rows = [f"{s.full_name:<26}{s.group:<10}{s.average_grade:>13.2f}" for s in persons]
     return "\n".join([title, HEADER, RULE, *rows])
 
 
@@ -36,27 +36,27 @@ def parse_grade(text: str) -> float:
         raise ValueError(f"'{text}' не є числом") from None
 
 
-def read_student(ask: Callable[[str], str] = input) -> Student:
+def read_person(ask: Callable[[str], str] = input) -> Person:
     first_name = ask("Ім'я: ")
     last_name = ask("Прізвище: ")
     group = ask("Група: ")
     grade = parse_grade(ask("Середній бал: "))
-    return Student(first_name, last_name, group, grade)
+    return Person(first_name, last_name, group, grade)
 
 
-def run_menu(registry: StudentRegistry, ask: Callable[[str], str] = input) -> None:
+def run_menu(registry: PersonRegistry, ask: Callable[[str], str] = input) -> None:
     """Menu loop. `ask` is injectable so the loop can be tested without a keyboard."""
 
     def show_all() -> None:
-        print(format_students(registry.all(), "УСІ СТУДЕНТИ"))
+        print(format_persons(registry.all(), "УСІ СТУДЕНТИ"))
 
     def add() -> None:
-        student = registry.add(read_student(ask))
-        print(f"Додано: {student.full_name}, {student.group}, {student.average_grade:.2f}")
+        person = registry.add(read_person(ask))
+        print(f"Додано: {person.full_name}, {person.group}, {person.average_grade:.2f}")
 
     def show_group() -> None:
         group = ask("Група: ")
-        print(format_students(registry.by_group(group), f"ГРУПА {group.strip()}"))
+        print(format_persons(registry.by_group(group), f"ГРУПА {group.strip()}"))
 
     def show_best() -> None:
         best = registry.best()
@@ -67,14 +67,14 @@ def run_menu(registry: StudentRegistry, ask: Callable[[str], str] = input) -> No
         print(f"Середній бал групи {group.strip()}: {registry.group_average(group):.2f}")
 
     def show_rating() -> None:
-        print(format_students(registry.sorted_by_grade(), "РЕЙТИНГ"))
+        print(format_persons(registry.sorted_by_grade(), "РЕЙТИНГ"))
 
     def search() -> None:
         last_name = ask("Прізвище (Enter — будь-яке): ").strip() or None
         group = ask("Група (Enter — будь-яка): ").strip() or None
         raw = ask("Мінімальний бал (Enter — без обмеження): ").strip()
         min_grade = parse_grade(raw) if raw else None
-        print(format_students(registry.search(last_name=last_name, group=group, min_grade=min_grade), "ПОШУК"))
+        print(format_persons(registry.search(last_name=last_name, group=group, min_grade=min_grade), "ПОШУК"))
 
     actions: dict[str, Callable[[], None]] = {
         "1": show_all, "2": add, "3": show_group, "4": show_best,
@@ -92,7 +92,7 @@ def run_menu(registry: StudentRegistry, ask: Callable[[str], str] = input) -> No
             continue
         try:
             action()
-        except StudentManagerError as error:
+        except PersonManagerError as error:
             print(f"Помилка: {error}")
         except ValueError as error:
             print(f"Некоректні дані: {error}")

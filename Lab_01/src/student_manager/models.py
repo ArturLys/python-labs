@@ -10,8 +10,8 @@ from student_manager.exceptions import InvalidGradeError, InvalidGroupError
 
 
 @dataclass(slots=True)
-class Student:
-    """One student: name, academic group and average grade on the 100-point scale."""
+class Person:
+    """One person: name, academic group and average grade on the 100-point scale."""
 
     first_name: str
     last_name: str
