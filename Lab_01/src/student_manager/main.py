@@ -6,11 +6,11 @@ import argparse
 import io
 import sys
 
-from records_app import __version__
-from records_app.cli import format_students, run_menu
-from records_app.exceptions import StudentManagerError
-from records_app.models import Student
-from records_app.registry import StudentRegistry
+from student_manager import __version__
+from student_manager.cli import format_students, run_menu
+from student_manager.exceptions import StudentManagerError
+from student_manager.models import Student
+from student_manager.registry import StudentRegistry
 
 
 def demo_registry() -> StudentRegistry:
@@ -53,7 +53,7 @@ def run_demo(registry: StudentRegistry) -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="records-app", description="Облік студентів")
+    parser = argparse.ArgumentParser(prog="student-manager", description="Облік студентів")
     parser.add_argument("--menu", action="store_true", help="інтерактивне меню замість демонстрації")
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     return parser

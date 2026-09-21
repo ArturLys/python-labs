@@ -1,6 +1,6 @@
 """Function-style business logic over a plain list of students (the same operations the registry offers)."""
 
-from records_app.models import Student
+from student_manager.models import Student
 
 
 def calculate_group_average(students: list[Student]) -> float:

@@ -5,8 +5,8 @@ from __future__ import annotations
 from collections.abc import Iterable, Iterator
 from statistics import mean
 
-from records_app.exceptions import StudentNotFoundError
-from records_app.models import Student
+from student_manager.exceptions import StudentNotFoundError
+from student_manager.models import Student
 
 
 class StudentRegistry:
