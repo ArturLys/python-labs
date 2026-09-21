@@ -1,13 +1,13 @@
-"""Domain-specific exceptions. Callers catch PersonManagerError to handle any of them at once."""
+"""Domain-specific exceptions. Callers catch StudentManagerError to handle any of them at once."""
 
 from student_manager.config import GRADE_MAX, GRADE_MIN
 
 
-class PersonManagerError(Exception):
+class StudentManagerError(Exception):
     """Base class for every error raised by the project."""
 
 
-class InvalidGradeError(PersonManagerError, ValueError):
+class InvalidGradeError(StudentManagerError, ValueError):
     """Average grade outside the 100-point scale."""
 
     def __init__(self, grade: float) -> None:
@@ -15,7 +15,7 @@ class InvalidGradeError(PersonManagerError, ValueError):
         self.grade = grade
 
 
-class InvalidGroupError(PersonManagerError, ValueError):
+class InvalidGroupError(StudentManagerError, ValueError):
     """Group name that does not look like ФЕП-31с."""
 
     def __init__(self, group: str) -> None:
@@ -23,5 +23,5 @@ class InvalidGroupError(PersonManagerError, ValueError):
         self.group = group
 
 
-class PersonNotFoundError(PersonManagerError, LookupError):
-    """A query matched no person."""
+class StudentNotFoundError(StudentManagerError, LookupError):
+    """A query matched no student."""

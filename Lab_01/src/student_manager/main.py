@@ -7,28 +7,28 @@ import io
 import sys
 
 from student_manager import __version__
-from student_manager.cli import format_persons, run_menu
-from student_manager.exceptions import PersonManagerError
-from student_manager.models import Person
-from student_manager.registry import PersonRegistry
+from student_manager.cli import format_students, run_menu
+from student_manager.exceptions import StudentManagerError
+from student_manager.models import Student
+from student_manager.registry import StudentRegistry
 
 
-def demo_registry() -> PersonRegistry:
-    return PersonRegistry([
-        Person("Марта", "Гнатишин", "ФЕП-31с", 93.4),
-        Person("Остап", "Дзюба", "ФЕП-31с", 78.9),
-        Person("Соломія", "Кравець", "ФЕП-32", 88.1),
-        Person("Тарас", "Вовк", "ФЕП-31с", 85.0),
-        Person("Ірина", "Пасічник", "ФЕП-32", 96.7),
-        Person("Юрій", "Скиба", "ФЕП-33", 71.2),
+def demo_registry() -> StudentRegistry:
+    return StudentRegistry([
+        Student("Марта", "Гнатишин", "ФЕП-31с", 93.4),
+        Student("Остап", "Дзюба", "ФЕП-31с", 78.9),
+        Student("Соломія", "Кравець", "ФЕП-32", 88.1),
+        Student("Тарас", "Вовк", "ФЕП-31с", 85.0),
+        Student("Ірина", "Пасічник", "ФЕП-32", 96.7),
+        Student("Юрій", "Скиба", "ФЕП-33", 71.2),
     ])
 
 
-def run_demo(registry: PersonRegistry) -> None:
+def run_demo(registry: StudentRegistry) -> None:
     group = "ФЕП-31с"
-    print(format_persons(registry.all(), "УСІ СТУДЕНТИ"))
+    print(format_students(registry.all(), "УСІ СТУДЕНТИ"))
     print()
-    print(format_persons(registry.by_group(group), f"ГРУПА {group}"))
+    print(format_students(registry.by_group(group), f"ГРУПА {group}"))
     print(f"\nСередній бал групи {group}: {registry.group_average(group):.2f}")
 
     best = registry.best()
@@ -37,9 +37,9 @@ def run_demo(registry: PersonRegistry) -> None:
     print(f"Найкращий у {group}: {best_in_group.full_name} ({best_in_group.average_grade:.2f})")
 
     print()
-    print(format_persons(registry.sorted_by_grade(), "РЕЙТИНГ"))
+    print(format_students(registry.sorted_by_grade(), "РЕЙТИНГ"))
     print()
-    print(format_persons(registry.search(group="ФЕП-32", min_grade=90), "ПОШУК: група ФЕП-32, бал >= 90"))
+    print(format_students(registry.search(group="ФЕП-32", min_grade=90), "ПОШУК: група ФЕП-32, бал >= 90"))
 
     stats = registry.statistics()
     print(f"\nСтатистика: {stats['count']} студентів, середній бал {stats['mean']:.2f}, "
@@ -47,13 +47,13 @@ def run_demo(registry: PersonRegistry) -> None:
 
     print("\nСпроба додати студента з балом 120:")
     try:
-        registry.add(Person("Хтось", "Новий", "ФЕП-31с", 120.0))
-    except PersonManagerError as error:
+        registry.add(Student("Хтось", "Новий", "ФЕП-31с", 120.0))
+    except StudentManagerError as error:
         print(f"  відхилено — {error}")
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="person-manager", description="Облік студентів")
+    parser = argparse.ArgumentParser(prog="student-manager", description="Облік студентів")
     parser.add_argument("--menu", action="store_true", help="інтерактивне меню замість демонстрації")
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     return parser
