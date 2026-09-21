@@ -1,3 +1,2 @@
-"""student_manager — облік студентів, наскрізний проєкт курсу «Професійний Python»."""
-
+"""Console calculator package."""
 __version__ = "0.1.0"
