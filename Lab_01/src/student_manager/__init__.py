@@ -1,2 +1,3 @@
-"""Console calculator package."""
+"""student_manager — облік студентів, наскрізний проєкт курсу «Професійний Python»."""
+
 __version__ = "0.1.0"
