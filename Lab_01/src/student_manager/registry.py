@@ -83,3 +83,6 @@ class StudentRegistry:
             "max": max(grades),
             "excellent": sum(s.is_excellent for s in self._students),
         }
+
+def broken(:
+    pass
