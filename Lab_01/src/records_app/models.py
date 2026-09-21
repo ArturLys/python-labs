@@ -5,8 +5,8 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from student_manager.config import EXCELLENT_THRESHOLD, GRADE_MAX, GRADE_MIN, GROUP_PATTERN
-from student_manager.exceptions import InvalidGradeError, InvalidGroupError
+from records_app.config import EXCELLENT_THRESHOLD, GRADE_MAX, GRADE_MIN, GROUP_PATTERN
+from records_app.exceptions import InvalidGradeError, InvalidGroupError
 
 
 @dataclass(slots=True)

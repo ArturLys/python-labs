@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
-from student_manager.exceptions import StudentManagerError
-from student_manager.models import Student
-from student_manager.registry import StudentRegistry
+from records_app.exceptions import StudentManagerError
+from records_app.models import Student
+from records_app.registry import StudentRegistry
 
 HEADER = f"{'Студент':<26}{'Група':<10}{'Середній бал':>13}"
 RULE = "-" * len(HEADER)

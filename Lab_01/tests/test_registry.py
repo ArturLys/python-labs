@@ -1,8 +1,8 @@
 import pytest
 
-from student_manager.exceptions import InvalidGradeError, InvalidGroupError, StudentNotFoundError
-from student_manager.models import Student
-from student_manager.registry import StudentRegistry
+from records_app.exceptions import InvalidGradeError, InvalidGroupError, StudentNotFoundError
+from records_app.models import Student
+from records_app.registry import StudentRegistry
 
 
 @pytest.fixture

@@ -1,6 +1,6 @@
 """Domain-specific exceptions. Callers catch StudentManagerError to handle any of them at once."""
 
-from student_manager.config import GRADE_MAX, GRADE_MIN
+from records_app.config import GRADE_MAX, GRADE_MIN
 
 
 class StudentManagerError(Exception):

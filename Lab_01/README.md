@@ -21,9 +21,9 @@ python -m pip install -e ".[test]"
 ## Запуск
 
 ```
-python -m student_manager.main          # демонстрація на вбудованих даних
-python -m student_manager.main --menu   # інтерактивне меню
-student-manager --version               # console script з pyproject.toml
+python -m records_app.main          # демонстрація на вбудованих даних
+python -m records_app.main --menu   # інтерактивне меню
+records-app --version               # console script з pyproject.toml
 ```
 
 ## Тести
@@ -35,7 +35,7 @@ python -m pytest
 ## Структура
 
 ```
-src/student_manager/
+src/records_app/
     config.py       константи (межі оцінок, шаблон назви групи)
     exceptions.py   власні винятки предметної області
     models.py       dataclass Student з валідацією
@@ -49,7 +49,7 @@ tests/
 ## Приклад
 
 ```
-$ python -m student_manager.main
+$ python -m records_app.main
 УСІ СТУДЕНТИ
 Студент                   Група      Середній бал
 -------------------------------------------------
